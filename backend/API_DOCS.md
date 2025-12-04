@@ -1,6 +1,6 @@
 # API 接口文档
 
-本文档描述了 `db.py` 中定义的所有 API 接口的使用方法和示例。
+本文档描述了 `db.py` 和 `llm.py` 中定义的所有 API 接口的使用方法和示例。
 
 ## 1. 获取所有房间信息
 
@@ -72,7 +72,45 @@ curl -X GET http://localhost:5000/api/db/rooms/550e8400-e29b-41d4-a716-446655440
 }
 ```
 
-## 3. 创建房间
+## 3. 根据房间ID获取对话内容
+
+### 请求方式
+GET
+
+### URL
+`/api/db/rooms/<room_id>/conversations`
+
+### 请求示例
+```bash
+curl -X GET http://localhost:5000/api/db/rooms/550e8400-e29b-41d4-a716-446655440000/conversations
+```
+
+### 响应示例
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1110e840-e29b-41d4-a716-446655440000",
+      "room_id": "550e8400-e29b-41d4-a716-446655440000",
+      "character_id": "770e8400-e29b-41d4-a716-446655440000",
+      "character_name": "角色A",
+      "content": "你好，很高兴认识你！",
+      "created_at": "2023-01-01T13:00:00"
+    },
+    {
+      "id": "2220e840-e29b-41d4-a716-446655440000",
+      "room_id": "550e8400-e29b-41d4-a716-446655440000",
+      "character_id": "880e8400-e29b-41d4-a716-446655440000",
+      "character_name": "角色B",
+      "content": "你好，我也很高兴认识你！",
+      "created_at": "2023-01-01T13:05:00"
+    }
+  ]
+}
+```
+
+## 4. 创建房间
 
 ### 请求方式
 POST
@@ -98,7 +136,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"新房间","worldv
 }
 ```
 
-## 4. 创建角色
+## 5. 创建角色
 
 ### 请求方式
 POST
@@ -125,12 +163,34 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"新角色","descri
 }
 ```
 
-## 错误响应格式
+## 6. 房间控制器API
+
+### 请求方式
+POST
+
+### URL
+`/api/llm/room_controller`
+
+### 请求示例
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"history_messages":["角色A: 你好","角色B: 你好"],"world_background":"这是一个测试房间的世界观","character_settings":["角色A: 一个友好的人","角色B: 一个开朗的人"]}' http://localhost:5000/api/llm/room_controller
+```
 
 ### 响应示例
-```json
-{
-  "status": "error",
-  "message": "错误信息描述"
-}
+（返回大模型原始JSON响应）
+
+## 7. 人物控制器API
+
+### 请求方式
+POST
+
+### URL
+`/api/llm/character_controller`
+
+### 请求示例
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"history_messages":["角色A: 你好"],"world_background":"这是一个测试房间的世界观","character_settings":["角色A: 一个友好的人","角色B: 一个开朗的人"],"admin_analysis":"两人初次见面，氛围友好","character_name":"角色B"}' http://localhost:5000/api/llm/character_controller
 ```
+
+### 响应示例
+（返回大模型原始JSON响应）
