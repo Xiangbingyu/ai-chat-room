@@ -18,19 +18,13 @@ export default function LLMTestPage() {
 
     const testData = {
       history_messages: [
-        { role: '用户', content: '你好，欢迎来到AI聊天室！' },
-        { role: '系统', content: '很高兴为您服务！' }
+        "你好，我是小明，很高兴认识你！",
+        "你好小明，我是小红，最近在研究什么新的AI技术吗？"
       ],
-      world_background: '这是一个未来科技世界，人类与AI和谐共处',
+      world_background: '这是一个未来科技世界，人类与AI和谐共处，科技高度发达但保持着人文关怀',
       character_settings: [
-        {
-          name: '小明',
-          background: '一名年轻的AI工程师，对新技术充满热情'
-        },
-        {
-          name: '小红',
-          background: '一位经验丰富的AI助手，擅长解决各种问题'
-        }
+        '小明: 一名年轻的AI工程师，对新技术充满热情，性格开朗乐观',
+        '小红: 一位经验丰富的AI伦理学家，关注科技发展对社会的影响'
       ]
     };
 
@@ -63,20 +57,15 @@ export default function LLMTestPage() {
 
     const testData = {
       history_messages: [
-        { role: '用户', content: '你好，欢迎来到AI聊天室！' },
-        { role: '系统', content: '很高兴为您服务！' }
+        "你好，我是小明，很高兴认识你！",
+        "你好小明，我是小红，最近在研究什么新的AI技术吗？"
       ],
-      world_background: '这是一个未来科技世界，人类与AI和谐共处',
+      world_background: '这是一个未来科技世界，人类与AI和谐共处，科技高度发达但保持着人文关怀',
       character_settings: [
-        {
-          name: '小明',
-          background: '一名年轻的AI工程师，对新技术充满热情'
-        },
-        {
-          name: '小红',
-          background: '一位经验丰富的AI助手，擅长解决各种问题'
-        }
+        '小明: 一名年轻的AI工程师，对新技术充满热情，性格开朗乐观',
+        '小红: 一位经验丰富的AI伦理学家，关注科技发展对社会的影响'
       ],
+      admin_analysis: '小明和小红是科技领域的同事，他们正在讨论AI技术的发展方向。小明对新技术充满热情，而小红更关注伦理问题。剧情可以围绕AI技术发展与伦理考量的平衡展开。',
       character_name: '小明'
     };
 
