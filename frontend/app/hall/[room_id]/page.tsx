@@ -233,7 +233,7 @@ export default function RoomDetail() {
           {characters.length === 0 ? (
             <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm p-8 text-center">
               <p className="text-zinc-500 dark:text-zinc-400 mb-4">暂无角色，点击上方按钮添加角色</p>
-              <p className="text-xs text-zinc-400 dark:text-zinc-500">至少需要2个角色才能进入房间</p>
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">至少需要4个角色才能进入房间</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -248,7 +248,7 @@ export default function RoomDetail() {
         </div>
 
         {/* 进入房间按钮 */}
-        {characters.length > 2 && (
+        {characters.length > 3 && (
           <div className="flex justify-center">
             <button
               onClick={handleEnterChatRoom}
