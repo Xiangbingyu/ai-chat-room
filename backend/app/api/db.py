@@ -142,3 +142,40 @@ def create_character():
             'status': 'error',
             'message': str(e)
         }), 500
+
+@db_bp.route('/conversations', methods=['POST'])
+def create_conversation():
+    """创建对话记录"""
+    try:
+        data = request.get_json()
+        conversation_id = str(uuid.uuid4())
+        new_conversation = Conversation(
+            id=conversation_id,
+            room_id=data.get('room_id'),
+            character_id=data.get('character_id'),
+            content=data.get('content')
+        )
+        db.session.add(new_conversation)
+        db.session.commit()
+        
+        # 获取对应的角色信息
+        character = Character.query.filter_by(id=new_conversation.character_id).first()
+        character_name = character.name if character else '未知角色'
+        
+        return jsonify({
+            'status': 'success',
+            'data': {
+                'id': new_conversation.id,
+                'room_id': new_conversation.room_id,
+                'character_id': new_conversation.character_id,
+                'character_name': character_name,
+                'content': new_conversation.content,
+                'created_at': new_conversation.created_at.isoformat()
+            }
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500

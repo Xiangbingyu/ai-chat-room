@@ -163,7 +163,35 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"新角色","descri
 }
 ```
 
-## 6. 房间控制器API
+## 6. 创建对话记录
+
+### 请求方式
+POST
+
+### URL
+`/api/db/conversations`
+
+### 请求示例
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"room_id":"550e8400-e29b-41d4-a716-446655440000","character_id":"770e8400-e29b-41d4-a716-446655440000","content":"你好，这是一条新的对话记录！"}' http://localhost:5000/api/db/conversations
+```
+
+### 响应示例
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "3330e840-e29b-41d4-a716-446655440000",
+    "room_id": "550e8400-e29b-41d4-a716-446655440000",
+    "character_id": "770e8400-e29b-41d4-a716-446655440000",
+    "character_name": "角色A",
+    "content": "你好，这是一条新的对话记录！",
+    "created_at": "2023-01-01T14:00:00"
+  }
+}
+```
+
+## 7. 房间控制器API
 
 ### 请求方式
 POST
@@ -179,7 +207,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"history_messages":["角�
 ### 响应示例
 （返回大模型原始JSON响应）
 
-## 7. 人物控制器API
+## 8. 人物控制器API
 
 ### 请求方式
 POST
