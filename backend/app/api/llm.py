@@ -19,6 +19,12 @@ def handle_room_controller():
         world_background = data.get('world_background', '')
         character_settings = data.get('character_settings', [])
         
+        # 过滤掉ai管理员的设定
+        filtered_character_settings = [
+            setting for setting in character_settings 
+            if not setting.startswith("ai管理员")
+        ]
+        
         # 构建系统提示
         system_prompt = f"""
 你是AI管理员，负责分析总结人物关系与剧情，引导剧情走向，同时必须指定下一轮对话的角色。
@@ -27,9 +33,10 @@ def handle_room_controller():
 {world_background}
 
 所有人物设定：
-{chr(10).join(character_settings)}
+{chr(10).join(filtered_character_settings)}
 
 请分析历史对话，总结人物关系和剧情发展，然后引导剧情走向，同时必须指定下一轮对话的角色。
+注意：next_speaker必须从上述人物设定列表中选择一个角色姓名，不允许选择ai管理员。
 """
         
         # 构建messages列表
@@ -61,7 +68,7 @@ def handle_room_controller():
                             },
                             "next_speaker": {
                                 "type": "string",
-                                "description": "下一轮对话的角色姓名"
+                                "description": f"下一轮对话的角色姓名，必须从以下角色中选择：{', '.join([setting.split(':')[0].strip() for setting in filtered_character_settings])}"
                             }
                         },
                         "required": ["summary", "plot_guidance", "next_speaker"]
@@ -73,7 +80,8 @@ def handle_room_controller():
         print(f'调用大模型参数:')
         print(f'  系统提示: {system_prompt[:100]}...')
         print(f'  历史对话数: {len(history_messages)}')
-        print(f'  人物设定数: {len(character_settings)}')
+        print(f'  原始人物设定数: {len(character_settings)}')
+        print(f'  过滤后人物设定数: {len(filtered_character_settings)}')
         
         # 调用大模型
         response = client.chat.completions.create(
@@ -120,7 +128,7 @@ def handle_character_controller():
 
 你现在需要扮演的角色是：{character_name}
 
-AI管理员的分析结果：
+上一轮管理员的分析结果：
 {admin_analysis}
 
 请分析历史对话和管理员的分析结果，以指定角色的身份进行自然流畅的回复，并保持角色的性格特点和语言风格一致。同时，必须指定下一轮对话的角色。
